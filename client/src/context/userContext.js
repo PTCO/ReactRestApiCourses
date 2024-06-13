@@ -30,7 +30,7 @@ export const UserProvider = (props) => {
 
     // Creates a user account and logins user in (creates a cookie with credentials)
     const signUp = async (data) => {
-        await axios.post('http://localhost:5000/api/users', data)
+        await axios.post('https://reactrestapicourses-production.up.railway.app/api/users', data)
         .then( result => {
             Cookies.set('authUser', JSON.stringify(result.data))
             navigate('/')
@@ -54,7 +54,7 @@ export const UserProvider = (props) => {
             return
         }
         const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
-        await axios.get('http://localhost:5000/api/users', {
+        await axios.get('https://reactrestapicourses-production.up.railway.app/api/users', {
             headers: {
                 Authorization: `Basic ${encodedCredentials}`
             }

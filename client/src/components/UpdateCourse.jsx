@@ -18,7 +18,7 @@ const UpdateCourse = () => {
     useEffect(()=>{
         if(!location.state) return actions.navigate('/forbidden', { state: { from: 'unauthorized'}});
         (async()=>{
-            await axios.get('http://localhost:5000/api/courses/' + location.state.from)
+            await axios.get('https://reactrestapicourses-production.up.railway.app/api/courses/' + location.state.from)
             .then( result => setCourse(result.data))
             .catch( errros => {
                 if(errros.response.status !== 500) actions.navigate('/notFound');

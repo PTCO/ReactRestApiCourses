@@ -23,7 +23,7 @@ export const CourseProvider = (props) => {
 
     // Creates a coursewith user credentials
     const createCourse = async (data) => {
-        await axios.post('http://localhost:5000/api/courses', data,  {
+        await axios.post('https://reactrestapicourses-production.up.railway.app/api/courses', data,  {
             headers: {
                 Authorization: `Basic ${credentials}`
             }
@@ -35,7 +35,7 @@ export const CourseProvider = (props) => {
     // Finds a updates intened course with new data
     const updateCourse = async (data, courseID) => {
         setErrors([]);
-        await axios.put('http://localhost:5000/api/courses/' + courseID, data, {
+        await axios.put('https://reactrestapicourses-production.up.railway.app/api/courses' + courseID, data, {
             headers: {
                 Authorization: `Basic ${credentials}`
             }
@@ -46,7 +46,7 @@ export const CourseProvider = (props) => {
 
     // Delete the intended course
     const deleteCourse = async (courseID) => {
-        await axios.delete('http://localhost:5000/api/courses/' + courseID, {
+        await axios.delete('https://reactrestapicourses-production.up.railway.app/api/courses' + courseID, {
             headers: {
                 Authorization: `Basic ${credentials}`
             }

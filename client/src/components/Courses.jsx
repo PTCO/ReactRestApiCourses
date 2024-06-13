@@ -10,7 +10,7 @@ const Courses = () => {
     // Loads all courses
     useEffect(()=>{
         (async()=>{
-            await axios.get('http://localhost:5000/api/courses')
+            await axios.get('https://reactrestapicourses-production.up.railway.app/api/courses')
             .then( result => setCourses(result.data))
             .catch( errors => {
                 actions.navigate('/error');
