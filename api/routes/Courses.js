@@ -46,7 +46,7 @@ Router.get('/courses/:id', async (req, res, next)=>{
     }
 })
 
-Router.put('/courses/:id', async (req, res, next)=>{
+Router.put('/courses/:id', authenticate, async (req, res, next)=>{
     try {
         await Course.update(
             {
@@ -68,7 +68,7 @@ Router.put('/courses/:id', async (req, res, next)=>{
     }
 })
 
-Router.delete('/courses/:id', async (req, res, next)=>{
+Router.delete('/courses/:id', authenticate, async (req, res, next)=>{
     try {
         const deleteCourse = await Course.findByPk(req.params.id)
         await deleteCourse.destroy();
@@ -78,9 +78,8 @@ Router.delete('/courses/:id', async (req, res, next)=>{
     }
 })
 
-Router.post('/courses', async (req, res, next)=>{
+Router.post('/courses', authenticate, async (req, res, next)=>{
     try {
-        console.log(req.body)
         const course = await Course.create({
             userId: req.body.userId,
             title: req.body.title,

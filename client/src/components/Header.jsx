@@ -13,7 +13,7 @@ const Header = () => {
                 { authUser ? 
                     <span className="d-flex align-items-center">
                         <h2 className="fs-4 userName text-white">Welcome, { authUser.firstName} {authUser.lastName}</h2>
-                        <button className="btn text-white border-white" onClick={ e => actions.signOut()}>Sign Out</button>
+                        <button className="btn text-white border-white" onClick={ e => navigate('/signout')}>Sign Out</button>
                     </span>
                 :
                 <span className="d-flex align-items-center">  

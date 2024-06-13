@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../context/userContext";
 import CourseContext from "../context/courseContext";
 
@@ -22,6 +22,10 @@ const CreateCourse = () => {
         }
         actions.createCourse(data)
     }
+
+    useEffect(()=>{
+        actions.setErrors([]);
+    }, [])
 
     return (
         <>

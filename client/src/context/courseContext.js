@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 const CourseContext = createContext();
 
 export const CourseProvider = (props) => {
-    const { authUser } = useContext(UserContext);
+    const { credentials } = useContext(UserContext);
     const [ errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
     // Handles any error returned by api requests
     const handleErrors = (errors) => {
         if(errors.response.status === 401 || errors.response.status === 400) {
+            if(errors.response.data.message && errors.response.data.message[0] === "Incorrect Password OR Email") navigate('/forbidden')
             if(errors.response.data.message) setErrors(errors.response.data.message)
             else setErrors(errors.response.data)
         } else {
@@ -22,9 +23,9 @@ export const CourseProvider = (props) => {
 
     // Creates a coursewith user credentials
     const createCourse = async (data) => {
-        await axios.post('http://localhost:5000/api/courses', data, {
+        await axios.post('http://localhost:5000/api/courses', data,  {
             headers: {
-                Authorization: `Bearer ${authUser.emailAddress}:${authUser.password}`
+                Authorization: `Basic ${credentials}`
             }
         })
         .then( ()=> navigate('/'))
@@ -34,15 +35,24 @@ export const CourseProvider = (props) => {
     // Finds a updates intened course with new data
     const updateCourse = async (data, courseID) => {
         setErrors([]);
-        await axios.put('http://localhost:5000/api/courses/' + courseID, data)
+        await axios.put('http://localhost:5000/api/courses/' + courseID, data, {
+            headers: {
+                Authorization: `Basic ${credentials}`
+            }
+        })
         .then( () => navigate(`/courses/${courseID}`))
         .catch( errors => handleErrors(errors));
     }
 
     // Delete the intended course
     const deleteCourse = async (courseID) => {
-        await axios.delete('http://localhost:5000/api/courses/' + courseID)
+        await axios.delete('http://localhost:5000/api/courses/' + courseID, {
+            headers: {
+                Authorization: `Basic ${credentials}`
+            }
+        })
         .then( () => navigate('/'))
+        .catch( errors => handleErrors(errors));
     }
 
     return (

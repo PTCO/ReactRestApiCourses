@@ -7,13 +7,16 @@ const UserContext = createContext();
 
 export const UserProvider = (props) => {        
     const cookie = Cookies.get('authUser');
+    const cookieCred = Cookies.get('cred');
     const navigate = useNavigate();
     const [ authUser , setAuthUser] = useState(cookie ? JSON.parse(cookie):null);
+    const [ credentials , setCredentials] = useState(cookieCred ? JSON.parse(cookieCred):null);
     const [ resultMsg , setResultMsg] = useState([]);
     
     useEffect(()=>{
         setAuthUser(cookie ? JSON.parse(cookie):null)
-    }, [cookie])
+        setCredentials(cookieCred ? JSON.parse(cookieCred):null)
+    }, [cookie, cookieCred])
 
     // Handles any error returned by api requests
     const handleErrors = (errors) => {
@@ -50,7 +53,7 @@ export const UserProvider = (props) => {
             setResultMsg(["Please fill in all fields"])
             return
         }
-        const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`)
+        const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
         await axios.get('http://localhost:5000/api/users', {
             headers: {
                 Authorization: `Basic ${encodedCredentials}`
@@ -69,12 +72,14 @@ export const UserProvider = (props) => {
         .catch( error => {
             handleErrors(error);
         })
+        .finally( () => { Cookies.set('cred', JSON.stringify(encodedCredentials)); setCredentials(encodedCredentials)})
     }
 
     return (
         <UserContext.Provider value={{
             authUser,
             resultMsg,
+            credentials,
             actions: {
                 signIn,
                 signUp,
