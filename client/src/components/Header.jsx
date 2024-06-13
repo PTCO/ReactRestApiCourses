@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import UserContext from "../context/userContext";
 

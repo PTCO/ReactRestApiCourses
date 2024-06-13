@@ -1,11 +1,11 @@
 
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import UserContext from "../context/userContext";
 import { Navigate, Outlet } from "react-router-dom";
-import axios from "axios";
+
 
 const PrivateRoute = () => {
-    const { authUser , actions } = useContext(UserContext);
+    const { authUser } = useContext(UserContext);
 
     if(authUser) {
         return <Outlet />
