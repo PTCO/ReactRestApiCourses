@@ -9,6 +9,7 @@ const UserSignUp = () => {
     const emailAddress = useRef("")
     const password = useRef("")
 
+    // Handles submitted form data
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {

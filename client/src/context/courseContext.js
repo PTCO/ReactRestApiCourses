@@ -10,6 +10,7 @@ export const CourseProvider = (props) => {
     const [ errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
+    // Handles any error returned by api requests
     const handleErrors = (errors) => {
         if(errors.response.status === 401 || errors.response.status === 400) {
             if(errors.response.data.message) setErrors(errors.response.data.message)
@@ -19,6 +20,7 @@ export const CourseProvider = (props) => {
         }
     }
 
+    // Creates a coursewith user credentials
     const createCourse = async (data) => {
         await axios.post('http://localhost:5000/api/courses', data, {
             headers: {
@@ -29,6 +31,7 @@ export const CourseProvider = (props) => {
         .catch( errors => handleErrors(errors))
     }
 
+    // Finds a updates intened course with new data
     const updateCourse = async (data, courseID) => {
         setErrors([]);
         await axios.put('http://localhost:5000/api/courses/' + courseID, data)
@@ -36,6 +39,7 @@ export const CourseProvider = (props) => {
         .catch( errors => handleErrors(errors));
     }
 
+    // Delete the intended course
     const deleteCourse = async (courseID) => {
         await axios.delete('http://localhost:5000/api/courses/' + courseID)
         .then( () => navigate('/'))

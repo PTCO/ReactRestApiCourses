@@ -10,11 +10,12 @@ export const UserProvider = (props) => {
     const navigate = useNavigate();
     const [ authUser , setAuthUser] = useState(cookie ? JSON.parse(cookie):null);
     const [ resultMsg , setResultMsg] = useState([]);
-
+    
     useEffect(()=>{
         setAuthUser(cookie ? JSON.parse(cookie):null)
     }, [cookie])
 
+    // Handles any error returned by api requests
     const handleErrors = (errors) => {
         if(errors.response.status === 401 || errors.response.status === 400) {
             if(errors.response.data.message) setResultMsg(errors.response.data.message)
@@ -24,6 +25,7 @@ export const UserProvider = (props) => {
         }
     }
 
+    // Creates a user account and logins user in (creates a cookie with credentials)
     const signUp = async (data) => {
         await axios.post('http://localhost:5000/api/users', data)
         .then( result => {
@@ -42,6 +44,7 @@ export const UserProvider = (props) => {
         navigate('/signout');
     }
 
+    //Logs a user in when provided with valid authentication data
     const signIn = async (credentials, returnPath) => {
         if(credentials.emailAddress === "" || credentials.password === "") {
             setResultMsg(["Please fill in all fields"])
@@ -77,7 +80,7 @@ export const UserProvider = (props) => {
                 signUp,
                 signOut,
                 navigate,
-                setResultMsg
+                setResultMsg,
             }
         }}>
             {props.children}
