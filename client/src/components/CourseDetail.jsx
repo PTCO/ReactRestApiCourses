@@ -15,7 +15,7 @@ const CourseDetail = () => {
 
     useEffect(()=>{
         (async()=>{
-            await axios.get('https://reactrestapicourses-production.up.railway.app/api/courses/' + location.pathname.substring(9))
+            await axios.get(`${process.env.REACT_APP_BACKEND_URL}courses/` + location.pathname.substring(9))
             .then( result => setCourse(result.data))
             .catch( errros => {
                 if(errros.response.status !== 500) actions.navigate('/notFound');
