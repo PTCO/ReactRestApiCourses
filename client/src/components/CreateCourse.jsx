@@ -11,8 +11,13 @@ const CreateCourse = () => {
     const estTime = useRef("")
     const materials = useRef("")
 
+    /* handleSubmit : Creates a new course
+       @params {object} e : form element event object
+    */   
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // data object with course input details
         const data = {
             userId: authUser.id,
             title: title.current.value,
@@ -20,9 +25,10 @@ const CreateCourse = () => {
             estTime: estTime.current.value,
             materials: materials.current.value
         }
-        actions.createCourse(data)
+        actions.createCourse(data) // Create a new course with provided data and redirects user to courses home page
     }
 
+    // Clears error messages on page or component load
     useEffect(()=>{
         actions.setErrors([]);
     }, [])
@@ -32,6 +38,7 @@ const CreateCourse = () => {
             <h3 className="mx-3 border-bottom border-2 pb-3 mb-3">Create Course</h3>
             <h3 className={`${errors.length === 0 ? 'd-none':null} ms-3 mb-0 text-danger`}>Validation Errors</h3>
             <ul className="ms-2 mb-4">
+            {/* Displays all error messages */}
             {errors.map( msg => (
                 <li key={msg} className="w-100 my-2 m-0">{msg}</li>
             ))}
@@ -52,6 +59,7 @@ const CreateCourse = () => {
                 </div>
                 <span className="mt-3">
                     <button className="btn btn-dark me-2" style={{width: "10em"}} type="submit">Create Course</button>
+                                                                                                                {/* Clears errors */}  
                     <button className="btn border border-2 " style={{width: "10em"}} type="button" onClick={ e => {actions.setErrors([]); actions.navigate('/')}}>Cancel</button>
                 </span>
             </form>

@@ -10,7 +10,9 @@ export const CourseProvider = (props) => {
     const [ errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
-    // Handles any error returned by api requests
+    /* handleErrors : Handles any error returned by api requests
+      @params {object} errors : All data or properties of returned errors
+    */
     const handleErrors = (errors) => {
         if(errors.response.status === 401 || errors.response.status === 400) {
             if(errors.response.data.message && errors.response.data.message[0] === "Incorrect Password OR Email") navigate('/forbidden')
@@ -21,7 +23,9 @@ export const CourseProvider = (props) => {
         }
     }
 
-    // Creates a coursewith user credentials
+    /* createCourse : Creates a new course
+       @params {object} data - User's course detials for creating a new course
+    */
     const createCourse = async (data) => {
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}courses`, data,  {
             headers: {
@@ -32,7 +36,10 @@ export const CourseProvider = (props) => {
         .catch( errors => handleErrors(errors))
     }
 
-    // Finds a updates intened course with new data
+    /* updateCourse : Finds a updates intened course with new data
+       @params {object} data - User's updated course detials
+       @params {integer} courseID - ID of the course to be updated
+    */
     const updateCourse = async (data, courseID) => {
         setErrors([]);
         await axios.put(`${process.env.REACT_APP_BACKEND_URL}courses/` + courseID, data, {
@@ -44,7 +51,9 @@ export const CourseProvider = (props) => {
         .catch( errors => handleErrors(errors));
     }
 
-    // Delete the intended course
+    /* updateCourse : Deletes the intended course
+       @params {integer} courseID - ID of the course to be Deleted
+    */    
     const deleteCourse = async (courseID) => {
         await axios.delete(`${process.env.REACT_APP_BACKEND_URL}courses/` + courseID, {
             headers: {

@@ -18,7 +18,9 @@ export const UserProvider = (props) => {
         setCredentials(cookieCred ? JSON.parse(cookieCred):null)
     }, [cookie, cookieCred])
 
-    // Handles any error returned by api requests
+    /* handleErrors : Handles any error returned by api requests
+      @params {object} errors : All data or properties of returned errors
+    */
     const handleErrors = (errors) => {
         if(errors.response.status === 401 || errors.response.status === 400) {
             if(errors.response.data.message) setResultMsg(errors.response.data.message)
@@ -28,7 +30,9 @@ export const UserProvider = (props) => {
         }
     }
 
-    // Creates a user account and logins user in (creates a cookie with credentials)
+    /* signUp : Creates a user account and logins user in - (creates a cookie with credentials)
+       @params {object} data - User's sign up credentials for creating a account
+    */
     const signUp = async (data) => {
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}users`, data)
         .then( result => {
@@ -40,20 +44,24 @@ export const UserProvider = (props) => {
         })
     }
 
-    // Deletes user cookie and redirects to signout route
+    // signOut : Deletes user cookie and redirects to signout route
     const signOut = () => {
         setAuthUser(null);
         Cookies.remove('authUser');
         navigate('/signout');
     }
 
-    //Logs a user in when provided with valid authentication data
+    /* signIn : Logs a user in when provided with valid authentication data;
+       @params {object} credentials  : User's email and password 
+       @params {object} returnPath : Retun path for user to be redirected to
+    */
     const signIn = async (credentials, returnPath) => {
         if(credentials.emailAddress === "" || credentials.password === "") {
             setResultMsg(["Please fill in all fields"])
             return
         }
-        const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
+        
+        const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`); // Store user credentials in base64 format
         await axios.get(`${process.env.REACT_APP_BACKEND_URL}users`, {
             headers: {
                 Authorization: `Basic ${encodedCredentials}`
@@ -62,6 +70,11 @@ export const UserProvider = (props) => {
         .then( result => {
             Cookies.set('authUser', JSON.stringify(result.data));
             setAuthUser(result.data);
+
+            /* If user is accessing authenticated page:
+                - they will be redirected to intended page - (returnPath)
+                - other wise they will be redirected to course home page
+            */
             if(returnPath) {
                 navigate(returnPath.from);
             } else {
@@ -72,7 +85,7 @@ export const UserProvider = (props) => {
         .catch( error => {
             handleErrors(error);
         })
-        .finally( () => { Cookies.set('cred', JSON.stringify(encodedCredentials)); setCredentials(encodedCredentials)})
+        .finally( () => { Cookies.set('cred', JSON.stringify(encodedCredentials)); setCredentials(encodedCredentials)}) // store user's credentials in a cookie and state variable to be persisted for future use   
     }
 
     return (

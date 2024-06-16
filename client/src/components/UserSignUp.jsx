@@ -9,7 +9,9 @@ const UserSignUp = () => {
     const emailAddress = useRef("")
     const password = useRef("")
 
-    // Handles submitted form data
+    /* handleSubmit : Takes User's input data to create a user account or sign them up
+       @params {object} e : form element event object
+    */
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -18,7 +20,7 @@ const UserSignUp = () => {
             emailAddress: emailAddress.current.value,
             password: password.current.value
         }
-        actions.signUp(data)
+        actions.signUp(data) // Creates user account and redirects user to course home with user authenticated or logged in
     }
     
 

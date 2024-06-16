@@ -14,10 +14,12 @@ const CourseDetail = () => {
     const [ isDelete , setIsDelete] = useState(false);
 
     useEffect(()=>{
+        // On component load, displays intended course details
         (async()=>{
             await axios.get(`${process.env.REACT_APP_BACKEND_URL}courses/` + location.pathname.substring(9))
             .then( result => setCourse(result.data))
             .catch( errros => {
+                // Returns user to correct error page or component
                 if(errros.response.status !== 500) actions.navigate('/notFound');
                 else actions.navigate('/error')
             })
@@ -28,6 +30,7 @@ const CourseDetail = () => {
         return(
             <>
             <div className="d-flex align-items-center courseDetialNav mt-3 px-2 ps-md-3 bg-light py-3">
+                {/* Displays course owners "edit controls" - allows owner to delete and update courses  */}
                 { authUser && course.userId === authUser.id ?
                 <>
                 <Link className="btn btn-lg btn-dark w-100" to={`/courses/${location.pathname.substring(9)}/update`} state={{from: location.pathname.substring(9)}}>Update Course</Link>
@@ -41,7 +44,9 @@ const CourseDetail = () => {
             <div className={`${isDelete ? null:'d-none'} ps-3 my-4`}>
                 <p className="fs-4">Are you sure you would like to delete this <b>Course</b>?</p>
                 <span className="d-flex align-items-center">
+                                                                            {/*  Uses course id from url and deletes corrosponding course   */}
                     <button className="btn btn-success me-2" onClick={ e => actions.deleteCourse(location.pathname.substring(9))}>Confirm</button>
+                                                                    {/* Closes delete course prompt */}
                     <button className="btn btn-danger" onClick={ e => setIsDelete(false)}>Cancel</button>
                 </span>
             </div>

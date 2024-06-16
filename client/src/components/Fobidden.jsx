@@ -22,6 +22,7 @@ const Forbidden = () => {
             :
             <>
             <p className="mb-2 fs-3">You need to <b>login</b> to continue.</p>
+            {/* Redirects user to signin page - when user logins in "state" value sent will navigate user back to course create page */}
             <Link className="btn btn-dark me-2" to="/signin" state={{from: "/courses/create"}} >
                 Sign In
             </Link>

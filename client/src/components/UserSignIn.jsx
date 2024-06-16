@@ -8,14 +8,16 @@ const UserSignIn = () => {
     const emailAddress = useRef("")
     const password = useRef("")
 
-    // Handles submitted form data
+    /* handleSubmit : Takes User's input data to sign in a user
+      @params {object} e : form element event object
+    */
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
             emailAddress: emailAddress.current.value,
             password: password.current.value
         }
-        actions.signIn(data, location.state)
+        actions.signIn(data, location.state) // Takes user's credentials and logins them in, then redirects to Course home page or the intended authenticated page - (location state)
     }
     
 

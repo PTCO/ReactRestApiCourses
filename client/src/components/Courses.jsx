@@ -22,6 +22,7 @@ const Courses = () => {
         <div className="container-fluid mt-4">
             <div className="row g-4">
                 { courses.map( course => (
+                // Redirects user to course detail page of corresponding course
                 <Link key={course.id} className="CourseBox col-12 col-sm-4 text-decoration-none" to={"/courses/" + course.id}>
                     <div className="h-100 border border-2 p-3 rounded"> 
                         <p className="m-0">Course</p>
@@ -29,6 +30,7 @@ const Courses = () => {
                     </div>
                 </Link>
                 ))}
+                {/* Redirects user to create course page or component */}
                 <Link className="CourseBox col-12 col-sm-4 text-decoration-none" to={"/courses/create"}>
                     <div className="h-100 border border-2 p-3 rounded">        
                         <h3 className="m-0">+ New Course</h3>

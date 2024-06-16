@@ -17,7 +17,9 @@ const Header = () => {
                     </span>
                 :
                 <span className="d-flex align-items-center">  
+                                                                                    {/* Clears signin/signup form error message & redirects user to signup page */}
                     <button className="btn text-white border-white me-2" onClick={ e => { actions.setResultMsg([]); navigate('signup')}}>Sign Up</button>
+                                                                                    {/* Clears signin/signup form error message & redirects user to signin page */}
                     <button className="btn text-white border-white" onClick={ e => { actions.setResultMsg([]); navigate('signin')}}>Sign In</button>
                 </span>
                 }
